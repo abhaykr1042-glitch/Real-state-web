@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Homes | Luxury Real Estate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00c3ff;
+            --accent: #00ffcc;
+            --glass: rgba(255, 255, 255, 0.1);
+            --dark-glass: rgba(0, 0, 0, 0.7);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: white;
+            background-color: #111;
+            overflow-x: hidden;
+        }
+
+        /* Hero Background with Overlay */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1920&q=80') no-repeat center/cover;
+            z-index: -1;
+            transform: scale(1.1);
+        }
+
+        /* Improved Navigation */
+        nav {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass);
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: #ddd;
+            margin: 0 20px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        nav button:hover, nav button.active-btn {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 80vh;
+            animation: slideUp 0.6s ease forwards;
+        }
+
+        .active { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Search Controls */
+        .search-container {
+            background: var(--dark-glass);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            border: 1px solid var(--glass);
+        }
+
+        .search-box input, .search-box select {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid #444;
+            background: #222;
+            color: white;
+            outline: none;
+            min-width: 200px;
+        }
+
+        /* Real Estate Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding-bottom: 50px;
+        }
+
+        .card {
+            background: var(--dark-glass);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-img-wrapper {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .card:hover img { transform: scale(1.1); }
+
+        .card-content { padding: 20px; text-align: left; }
+
+        .price {
+            color: var(--accent);
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .card h3 { margin: 0; font-size: 1.2rem; }
+
+        .favorite {
+            width: 100%;
+            background: transparent;
+            border: 1px solid #ff4757;
+            color: #ff4757;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .favorite:hover {
+            background: #ff4757;
+            color: white;
+        }
+
+        /* About & Contact Form */
+        .glass-panel {
+            background: var(--dark-glass);
+            padding: 40px;
+            border-radius: 20px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; text-align: left; }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        button.submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button.submit:hover {
+            background: #0099cc;
+            box-shadow: 0 0 20px var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="bg-overlay"></div>
+
+<nav>
+    <div class="logo">🏠 DREAM HOMES</div>
+    <button onclick="showTab('home')" id="btn-home" class="active-btn">Home</button>
+    <button onclick="showTab('listings')" id="btn-listings">Listings</button>
+    <button onclick="showTab('about')" id="btn-about">About</button>
+    <button onclick="showTab('contact')" id="btn-contact">Contact</button>
+</nav>
+
+<div id="home" class="section active">
+    <div style="margin-top: 10vh;">
+        <h1 style="font-size: 3.5rem; margin-bottom: 10px;">Find Your <span style="color: var(--primary);">Legacy</span>.</h1>
+        <p style="font-size: 1.2rem; color: #ccc;">Curated premium properties across the country's most elite locations.</p>
+        <button class="submit" onclick="showTab('listings')" style="margin-top: 20px;">Browse Collections</button>
+    </div>
+</div>
+
+<div id="listings" class="section">
+    <h2 style="font-size: 2.5rem;">Luxury Catalog</h2>
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="search" placeholder="🔍 Search city or type...">
+        </div>
+        <div class="search-box">
+            <select id="priceFilter">
+                <option value="all">All Price Ranges</option>
+                <option value="low">Value Homes (Below ₹70L)</option>
+                <option value="mid">Premium (₹70L - ₹1Cr)</option>
+                <option value="high">Elite (Above ₹1Cr)</option>
+            </select>
+        </div>
+    </div>
+    <div class="cards" id="propertyList"></div>
+</div>
+
+<div id="about" class="section">
+    <div class="glass-panel">
+        <h1>Our Story</h1>
+        <p>Founded in 2010, Dream Homes has revolutionized the way people discover luxury real estate. We don't just list houses; we match lifestyles.</p>
+        <div style="display: flex; justify-content: space-around; margin-top: 30px;">
+            <div><h3>500+</h3><p>Sold</p></div>
+            <div><h3>12</h3><p>Cities</p></div>
+            <div><h3>4.9/5</h3><p>Rating</p></div>
+        </div>
+    </div>
+</div>
+
+<div id="contact" class="section">
+    <div class="glass-panel">
+        <h1>Get in Touch</h1>
+        <div class="form-group">
+            <input type="text" placeholder="Full Name">
+            <input type="email" placeholder="Email Address">
+            <textarea placeholder="Tell us about your dream home..." rows="5"></textarea>
+        </div>
+        <button class="submit">Send Inquiry</button>
+    </div>
+</div>
+
+<script>
+// Fixed data array (removed 'nsplash.' errors)
+const properties = [
+    {name:"Luxury Villa Lucknow", price:120, type:"villa", img:"https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=500"},
+    {name:"Modern Apartment Kanpur", price:65, type:"apartment", img:"https://images.unsplash.com/photo-1560184897-ae75f418493e?w=500"},
+    {name:"Family House Asti Road", price:85, type:"house", img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500"},
+    {name:"Seaside Beach Villa", price:150, type:"villa", img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500"},
+    {name:"Penthouse Suite", price:180, type:"apartment", img:"https://images.unsplash.com/photo-1512918766671-ed6a07be061f?w=500"},
+    {name:"Suburban Garden Home", price:92, type:"house", img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500"},
+    {name:"Urban Loft", price:55, type:"apartment", img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=500"},
+    {name:"Hilltop Manor", price:210, type:"villa", img:"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=500"}
+];
+
+function displayProperties(list) {
+    const container = document.getElementById("propertyList");
+    container.innerHTML = "";
+
+    if(list.length === 0) {
+        container.innerHTML = `<p style="grid-column: 1/-1;">No properties found matching your criteria.</p>`;
+        return;
+    }
+
+    list.forEach(p => {
+        container.innerHTML += `
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="${p.img}" alt="${p.name}">
+                </div>
+                <div class="card-content">
+                    <h3>${p.name}</h3>
+                    <p class="price">₹${p.price} Lakh</p>
+                    <p style="opacity: 0.7; font-size: 0.9rem; margin-bottom: 15px;">
+                        <i class="fas fa-home"></i> ${p.type.toUpperCase()} | <i class="fas fa-map-marker-alt"></i> India
+                    </p>
+                    <button class="favorite" onclick="alert('Added ${p.name} to favorites!')">
+                        <i class="far fa-heart"></i> Save Property
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function filterProperties() {
+    let search = document.getElementById("search").value.toLowerCase();
+    let price = document.getElementById("priceFilter").value;
+
+    let filtered = properties.filter(p => {
+        let matchSearch = p.name.toLowerCase().includes(search) || p.type.toLowerCase().includes(search);
+        let matchPrice =
+            price === "all" ||
+            (price === "low" && p.price < 70) ||
+            (price === "mid" && p.price >= 70 && p.price <= 100) ||
+            (price === "high" && p.price > 100);
+
+        return matchSearch && matchPrice;
+    });
+
+    displayProperties(filtered);
+}
+
+document.getElementById("search").addEventListener("input", filterProperties);
+document.getElementById("priceFilter").addEventListener("change", filterProperties);
+
+function showTab(tabId) {
+    // Switch active section
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    
+    // Update button styling
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-btn'));
+    document.getElementById('btn-' + tabId).classList.add('active-btn');
+    
+    // Smooth scroll to top
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Initialize
+displayProperties(properties);
+</script>
+
+</body>
+</html>
